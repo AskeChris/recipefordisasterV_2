@@ -3,10 +3,10 @@ let sel;
 
 function setup() {
   createCanvas(700, 700);
-  background(220);
+  background(255);
   let Btn = createButton("Random Dish")
     .position(100, 100)
-    .size(100, 70)
+    .size(140, 30)
     .mousePressed(() => Dish());
   DDcategory = createSelect();
   DDcategory.position(0, 100);
@@ -21,33 +21,36 @@ function setup() {
   DDcategory.option("Breakfast");
   DDcategory.option("Goat");
   
-  sel = createSelect();
-  sel.position(10, 10);
-  sel.option('foo');
-  sel.option('bar');
-  sel.option('baz');
-  sel.style('background-color', 'orange');
-  sel.style('border-radius', '3px');
-  sel.style('width', '200px');
-  sel.style('padding', '0.5em');
+
+  //sel.style('background-color', 'orange');
+  //sel.style('border-radius', '3px');
+  //sel.style('width', '200px');
+  //sel.style('padding', '0.5em');
   
 }
 
 function Dish() {
-  let categoryString = "https://www.themealdb.com/api/json/v1/1/filter.php?c=";
+  const categoryString = "https://www.themealdb.com/api/json/v1/1/filter.php?c=";
 
   //loadJSON("https://www.themealdb.com/api/json/v1/1/random.php", Console);
   loadJSON(categoryString + DDcategory.selected(), Console);
+
 }
 
 function Console(d) {
   console.log(d);
-  background(220);
+  background(255);
   textWrap(WORD);
 
   let randomMeal = random(d.meals);
 
   text(randomMeal.strMeal, 20, 200, 600);
-  text(randomMeal.strCategory, 200, 200, 600);
-  text(randomMeal.strInstructions, 20, 250, 600);
+
+  const idString = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=";
+  loadJSON(idString + randomMeal.idMeal, (mealData)=> {
+    console.log(mealData);
+    text(mealData.meals[0].strArea, 20, 300, 600);
+  });
+
 }
+
