@@ -5,11 +5,11 @@ function setup() {
   createCanvas(700, 700);
   background(255);
   let Btn = createButton("Random Dish")
-    .position(100, 100)
+    .position(120, 100)
     .size(140, 30)
     .mousePressed(() => Dish());
   DDcategory = createSelect();
-  DDcategory.position(0, 100);
+  DDcategory.position(10, 100);
   DDcategory.option("Miscellaneous");
   DDcategory.option("Vegan");
   DDcategory.option("Dessert");
