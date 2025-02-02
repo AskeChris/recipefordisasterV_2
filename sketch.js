@@ -1,56 +1,54 @@
 let DDcategory;
-let sel;
+let textWidth = 500;
+let lastMealId;
 
 function setup() {
-  createCanvas(700, 700);
+  createCanvas(windowWidth, windowHeight); 
+  let canvasContainer = createDiv().id('canvas-container');
+  canvasContainer.child(select('canvas'));
   background(255);
-  let Btn = createButton("Random Dish")
-    .position(120, 100)
+  
+  let Btn = createButton("Random Dish!")
+    .position((windowWidth-140)/2+75, windowHeight-60, 'fixed')
     .size(140, 30)
     .mousePressed(() => Dish());
   DDcategory = createSelect();
-  DDcategory.position(10, 100);
-  DDcategory.option("Miscellaneous");
-  DDcategory.option("Vegan");
-  DDcategory.option("Dessert");
-  DDcategory.option("Vegetarian");
-  DDcategory.option("Starter");
-  DDcategory.option("Side");
-  DDcategory.option("Pasta");
-  DDcategory.option("Seafood");
-  DDcategory.option("Breakfast");
-  DDcategory.option("Goat");
-  
-
-  //sel.style('background-color', 'orange');
-  //sel.style('border-radius', '3px');
-  //sel.style('width', '200px');
-  //sel.style('padding', '0.5em');
-  
+  DDcategory.position((windowWidth-140)/2-75, windowHeight-60, 'fixed')
+  DDcategory.size(140, 30);
+  ["Miscellaneous", "Vegan", "Dessert", "Vegetarian", "Starter", "Side", "Pasta", "Seafood", "Breakfast", "Goat"].forEach(category => DDcategory.option(category));
 }
 
 function Dish() {
   const categoryString = "https://www.themealdb.com/api/json/v1/1/filter.php?c=";
-
-  //loadJSON("https://www.themealdb.com/api/json/v1/1/random.php", Console);
   loadJSON(categoryString + DDcategory.selected(), Console);
-
 }
 
 function Console(d) {
-  console.log(d);
   background(255);
   textWrap(WORD);
 
   let randomMeal = random(d.meals);
 
-  text(randomMeal.strMeal, 20, 200, 600);
+  if (randomMeal.idMeal === lastMealId) {
+    randomMeal = random(d.meals);
+  }
+
+  lastMealId = randomMeal.idMeal;
 
   const idString = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=";
-  loadJSON(idString + randomMeal.idMeal, (mealData)=> {
-    console.log(mealData);
+  loadJSON(idString + randomMeal.idMeal, (mealData) => {
+    textSize(32);
+    text(mealData.meals[0].strMeal, (windowWidth - textWidth) / 2, 75, textWidth);
+    textStyle(BOLD);
+    textSize(20);
+    text("Instructions", (windowWidth - textWidth) / 2, 150, textWidth);
+    textSize(12);
+    textStyle(BOLD);
+    text(mealData.meals[0].strArea.toUpperCase() + " CUISINE", (windowWidth - textWidth) / 2, 55, textWidth);
+    textSize(14);
+    textStyle(NORMAL);
 
-    text(mealData.meals[0].strArea, 20, 300, 600);
+    text(mealData.meals[0].strInstructions, (windowWidth - textWidth) / 2, 190, textWidth);
     text(mealData.meals[0].strIngredient1, 200, 350, 600);
     text(mealData.meals[0].strMeasure1, 20, 350, 600);
     text(mealData.meals[0].strIngredient2, 200, 370, 600);
@@ -93,6 +91,4 @@ function Console(d) {
     text(mealData.meals[0].strMeasure20, 20, 730, 600);
   
   });
-
 }
-
