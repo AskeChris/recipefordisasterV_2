@@ -5,7 +5,7 @@ let mealImage;
 let youtubeLinkP;
 
 function setup() {
-  let canvas = createCanvas(windowWidth, windowHeight * 1.5); // Sørg for at canvas er større end vinduet, så det kan scrolles
+  let canvas = createCanvas(windowWidth, windowHeight * 1.7); // Sørg for at canvas er større end vinduet, så det kan scrolles
   canvas.parent('canvas-container'); // Tilknyt canvas til containeren
   background(255); // Sæt baggrunden til hvid, der resetter canvas ved start
   let Btn = createButton("Random Dish!")
