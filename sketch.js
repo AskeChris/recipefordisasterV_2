@@ -7,7 +7,7 @@ let youtubeLinkP;
 function setup() {
   let canvas = createCanvas(windowWidth, windowHeight * 1.5); // Sørg for at canvas er større end vinduet, så det kan scrolles
   canvas.parent('canvas-container'); // Tilknyt canvas til containeren
-  background(255);
+  background(255); // Sæt baggrunden til hvid, der resetter canvas ved start
   let Btn = createButton("Random Dish!")
     .position((windowWidth - 140) / 2 + 75, windowHeight - 60, 'fixed')
     .size(140, 30)
@@ -24,8 +24,7 @@ function Dish() {
 }
 
 function Console(d) {
-  background(255);
-  textWrap(WORD);
+  background(255); // Sæt baggrunden til hvid, hvilket resetter canvas ved ny opskrift
 
   let randomMeal = random(d.meals);
 
@@ -39,6 +38,10 @@ function Console(d) {
   loadJSON(idString + randomMeal.idMeal, (mealData) => {
     let meal = mealData.meals[0];
     mealImage = loadImage(meal.strMealThumb, () => {
+      
+      // Vis billedet af retten
+      image(mealImage, (windowWidth - textWidth) / 2 - 280, 500, 300, 250, 0, 0, mealImage.width, mealImage.height, COVER);
+      
       textSize(32);
       textAlign(CENTER);
       text(meal.strMeal, (windowWidth - textWidth) / 2, 75, textWidth);
@@ -53,30 +56,25 @@ function Console(d) {
       textSize(14);
       textStyle(NORMAL);
       textAlign(LEFT);
-
-      // Display the image
-      image(mealImage, (windowWidth - textWidth) / 2 - 280, 500, 300, 250, 0, 0, mealImage.width, mealImage.height, COVER);
-
       text(meal.strInstructions, (windowWidth - textWidth) / 2 + 200, 190, textWidth);
 
       // Opdater eller skab et nyt link til YouTube videoen
       if (youtubeLinkP) {
         youtubeLinkP.remove();
       }
-      youtubeLinkP = createP(`<a href="${meal.strYoutube}" target="_blank">(Watch recipe tutorial on YouTube)</a>`);
+      youtubeLinkP = createP('<a href="${meal.strYoutube}" target="_blank">(Watch recipe tutorial on YouTube)</a>');
       youtubeLinkP.position((windowWidth - textWidth) / 2 + 330, 134);
-      youtubeLinkP.style('font-family', 'Arial'); // Sæt fonten til Arial
-      youtubeLinkP.parent('canvas-container'); // Tilknyt linket til containeren
+      youtubeLinkP.style('font-family', 'Arial'); // Sæt fonten til Arial i stedet for Times New Roman
+      youtubeLinkP.parent('canvas-container'); // Tilknyt linket til containeren, så det scrolles korrekt
 
       let yPos = 190;
       for (let i = 1; i <= 20; i++) {
-        let ingredient = meal[`strIngredient${i}`];
-        let measure = meal[`strMeasure${i}`];
+        let ingredient = meal['strIngredient${i}'];
+        let measure = meal['strMeasure${i}'];
         if (ingredient && ingredient.trim() !== "") {
-          textAlign(LEFT);
           text(ingredient, (windowWidth - textWidth) / 2 - 70, yPos, textWidth);
           text(measure, (windowWidth - textWidth) / 2 - 280, yPos, textWidth);
-          yPos += 20;
+          yPos += 20; // Rykker 20 px ned til næste ingrediens
         }
       }
     });
