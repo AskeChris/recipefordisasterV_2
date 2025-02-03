@@ -62,19 +62,19 @@ function Console(d) {
       if (youtubeLinkP) {
         youtubeLinkP.remove();
       }
-      youtubeLinkP = createP('<a href="${meal.strYoutube}" target="_blank">(Watch recipe tutorial on YouTube)</a>');
+      youtubeLinkP = createP(`<a href="${meal.strYoutube}" target="_blank">(Watch recipe tutorial on YouTube)</a>`);
       youtubeLinkP.position((windowWidth - textWidth) / 2 + 330, 134);
       youtubeLinkP.style('font-family', 'Arial'); // Sæt fonten til Arial i stedet for Times New Roman
       youtubeLinkP.parent('canvas-container'); // Tilknyt linket til containeren, så det scrolles korrekt
 
       let yPos = 190;
       for (let i = 1; i <= 20; i++) {
-        let ingredient = meal['strIngredient${i}'];
-        let measure = meal['strMeasure${i}'];
+        let ingredient = meal[`strIngredient${i}`];
+        let measure = meal[`strMeasure${i}`];
         if (ingredient && ingredient.trim() !== "") {
           text(ingredient, (windowWidth - textWidth) / 2 - 70, yPos, textWidth);
           text(measure, (windowWidth - textWidth) / 2 - 280, yPos, textWidth);
-          yPos += 20; // Rykker 20 px ned til næste ingrediens
+          yPos += 20;
         }
       }
     });
